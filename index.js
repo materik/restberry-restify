@@ -5,46 +5,44 @@ var restify = require('restify');
 var modules = require('restberry-modules');
 
 
-function RestberryRestify() {
+function RestberryRestify(req, res) {
+    this.setReqAndRes(req, res);
     this.restify = restify;
-    this.app = null;
+    this.server = null;
 };
 
 RestberryRestify.prototype.__proto__ = modules.waf.prototype;
 
 RestberryRestify.prototype.delete = function() {
-    var app = this.app;
-    app.delete.apply(app, arguments);
+    var server = this.server;
+    server.del.apply(server, arguments);
 };
 
 RestberryRestify.prototype.get = function() {
-    var app = this.app;
-    app.get.apply(app, arguments);
+    var server = this.server;
+    server.get.apply(server, arguments);
 };
 
 RestberryRestify.prototype.listen = function(port, next) {
-    this.app.listen(port, next);
+    this.server.listen(port, next);
 };
 
 RestberryRestify.prototype.post = function() {
-    var app = this.app;
-    app.post.apply(app, arguments);
+    var server = this.server;
+    server.post.apply(server, arguments);
 };
 
 RestberryRestify.prototype.put = function() {
-    var app = this.app;
-    app.put.apply(app, arguments);
-};
-
-RestberryRestify.prototype.res = function(code, data) {
-    this._res.status(code).json(data);
+    var server = this.server;
+    server.put.apply(server, arguments);
 };
 
 RestberryRestify.prototype.use = function(next) {
     var self = this;
-    var app = restify();
-    app.use(bodyParser.json());
-    self.app = app;
+    var server = restify.createServer();
+    server.use(bodyParser.json());
+    server.use(restify.queryParser());
+    self.server = server;
     if (next)  next(self);
     return self;
 };

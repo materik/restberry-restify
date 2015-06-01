@@ -17,7 +17,7 @@ var restberryRestify = require('restberry-restify');
 
 restberry
     .use(restberryRestify.use(function(waf) {
-        var app = waf.app;
         var restify = waf.restify;
+        var server = waf.server;
     }));
 ```
