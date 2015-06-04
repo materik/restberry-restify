@@ -17,7 +17,7 @@
         "restberry-errors": "0.2.x",
         "restberry-modules": "0.2.x",
         "restify": "3.0.x",
-        "underscore": "1.5.x"
+        "underscore": "1.8.x"
     },
     "description": "Restify wrapper for Restberry WAF",
     "homepage": "http://restberry.com",

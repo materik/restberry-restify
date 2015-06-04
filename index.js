@@ -4,6 +4,7 @@ var errors = require('restberry-errors');
 var restify = require('restify');
 var modules = require('restberry-modules');
 
+var FORMATTER_JSON_KEY = 'application/json; q=0.4';
 
 function RestberryRestify(req, res) {
     this.setReqAndRes(req, res);
@@ -16,6 +17,19 @@ RestberryRestify.prototype.__proto__ = modules.waf.prototype;
 RestberryRestify.prototype.delete = function() {
     var server = this.server;
     server.del.apply(server, arguments);
+};
+
+RestberryRestify.prototype.formatters = function() {
+    var self = this;
+    var formatters = {};
+    formatters[FORMATTER_JSON_KEY] = function(req, res, data) {
+        if (_.isError(data)) {
+            return self.handleRes(data, req, res);
+        }
+        var formatJSON = restify.formatters[FORMATTER_JSON_KEY];
+        return formatJSON(req, res, data);
+    };
+    return formatters;
 };
 
 RestberryRestify.prototype.get = function() {
@@ -39,7 +53,9 @@ RestberryRestify.prototype.put = function() {
 
 RestberryRestify.prototype.use = function(next) {
     var self = this;
-    var server = restify.createServer();
+    var server = restify.createServer({
+        formatters: self.formatters(),
+    });
     server.use(bodyParser.json());
     server.use(restify.queryParser());
     self.server = server;
