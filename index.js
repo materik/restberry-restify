@@ -1,6 +1,5 @@
 var _ = require('underscore');
 var bodyParser = require('body-parser');
-var errors = require('restberry-errors');
 var restify = require('restify');
 var modules = require('restberry-modules');
 
