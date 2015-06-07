@@ -5,9 +5,26 @@ var restify = require('restify');
 var FORMATTER_JSON_KEY = 'application/json; q=0.4';
 
 function RestberryRestify() {
+    this._configured = false;
     this._formatters = {};
     this.restify = restify;
     this.server = null;
+};
+
+RestberryRestify.prototype.config = function(next) {
+    if (!this._configured) {
+        this._configured = true;
+        var server = restify.createServer({
+            formatters: this.formatters(),
+        });
+        server.use(bodyParser.json());
+        server.use(restify.queryParser());
+        this.server = server;
+        if (next) {
+            next(this);
+        }
+    }
+    return this;
 };
 
 RestberryRestify.prototype.delete = function() {
@@ -43,18 +60,6 @@ RestberryRestify.prototype.post = function() {
 RestberryRestify.prototype.put = function() {
     var server = this.server;
     server.put.apply(server, arguments);
-};
-
-RestberryRestify.prototype.use = function(next) {
-    var self = this;
-    var server = restify.createServer({
-        formatters: self.formatters(),
-    });
-    server.use(bodyParser.json());
-    server.use(restify.queryParser());
-    self.server = server;
-    if (next)  next(self);
-    return self;
 };
 
 RestberryRestify.prototype.res = function(code, data) {
