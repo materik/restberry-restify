@@ -3,8 +3,7 @@ Restberry-Restify
 
 [![](https://img.shields.io/npm/v/restberry-restify.svg)](https://www.npmjs.com/package/restberry-restify) [![](https://img.shields.io/npm/dm/restberry-restify.svg)](https://www.npmjs.com/package/restberry-restify)
 
-Restify wrapper for Restberry WAF. This package implements the WAF interface of
-Restberry-Modules and can be used by Restberry.
+Restify wrapper for Restberry.
 
 ## Install
 
@@ -18,8 +17,8 @@ npm install restberry-restify
 var restberryRestify = require('restberry-restify');
 
 restberry
-    .use(restberryRestify.use(function(waf) {
+    .use('restify', function(waf) {
         var restify = waf.restify;
         var server = waf.server;
-    }));
+    });
 ```
