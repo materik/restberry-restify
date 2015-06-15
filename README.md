@@ -3,7 +3,7 @@ Restberry-Restify
 
 [![](https://img.shields.io/npm/v/restberry-restify.svg)](https://www.npmjs.com/package/restberry-restify) [![](https://img.shields.io/npm/dm/restberry-restify.svg)](https://www.npmjs.com/package/restberry-restify)
 
-Restify wrapper for Restberry.
+Restberry WAF wrapper for restify.
 
 ## Install
 
